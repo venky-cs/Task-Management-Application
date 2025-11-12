@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Typography,
@@ -6,42 +7,78 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Avatar,
+  Stack,
+  Chip,
+  Divider,
+  DialogContentText,
 } from "@mui/material";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 function TaskViewDialog({ open, onClose, task, formatDate }) {
   if (!task) return null;
+
+  const statusColor = task.status === "Completed" ? "success" : "error";
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>View Task</DialogTitle>
-      <DialogContent>
-        <Box sx={{ mt: 1 }}>
-          <Typography variant="h6">{task.title}</Typography>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            display="block"
-            sx={{ mb: 1 }}
-          >
-            Created: {formatDate(task.createdAt)}
-          </Typography>
-          <Typography variant="body1">{task.description}</Typography>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            display="block"
-            sx={{
-              mt: 2,
-              color:
-                task.status === "Completed"
-                  ? (theme) => theme.palette.success.main
-                  : (theme) => theme.palette.error.main,
-            }}
-          >
-            Status: {task.status}
-          </Typography>
-        </Box>
+      <DialogTitle>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Avatar sx={{ bgcolor: "primary.main", width: 40, height: 40 }}>
+            <AssignmentIcon />
+          </Avatar>
+
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="h6"
+              noWrap={false}
+              sx={{ fontWeight: 700, lineHeight: 1.15 }}
+            >
+              {task.title}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block" }}
+            >
+              Created: {formatDate(task.createdAt)}
+            </Typography>
+          </Box>
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Chip
+              label={task.status}
+              color={statusColor}
+              size="small"
+              sx={{ textTransform: "uppercase", fontWeight: 700 }}
+            />
+          </Stack>
+        </Stack>
+      </DialogTitle>
+
+      <Divider />
+
+      <DialogContent
+        dividers
+        sx={{
+          pt: 2,
+          maxHeight: "50vh",
+        }}
+      >
+        <DialogContentText
+          component="div"
+          sx={{ whiteSpace: "pre-wrap", color: "text.primary" }}
+        >
+          {task.description || (
+            <Typography color="text.secondary">
+              No description provided.
+            </Typography>
+          )}
+        </DialogContentText>
       </DialogContent>
-      <DialogActions>
+
+      <DialogActions sx={{ px: 3, py: 2 }}>
         <Button onClick={onClose}>Close</Button>
       </DialogActions>
     </Dialog>
