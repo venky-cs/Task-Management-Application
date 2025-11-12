@@ -64,7 +64,7 @@ export default function Dashboard() {
   });
 
   // Fetch tasks
-  const fetchTasks = useCallback(async (p = page, l = limit) => {
+  const fetchTasks = useCallback(async (p, l) => {
     setLoading(true);
     try {
       const res = await api.get("/tasks", {
