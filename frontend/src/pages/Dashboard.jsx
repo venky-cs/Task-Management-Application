@@ -86,8 +86,8 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchTasks();
-  }, [page, limit]);
+    fetchTasks(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, limit, fetchTasks]);
 
   const handleOpenCreate = () => {
     setEditing(null);
