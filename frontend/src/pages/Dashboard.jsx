@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import {
   Box,
   Container,
@@ -64,7 +64,7 @@ export default function Dashboard() {
   });
 
   // Fetch tasks
-  const fetchTasks = async (p = page, l = limit) => {
+  const fetchTasks = useCallback(async (p = page, l = limit) => {
     setLoading(true);
     try {
       const res = await api.get("/tasks", {
@@ -83,7 +83,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchTasks(); // eslint-disable-next-line react-hooks/exhaustive-deps
